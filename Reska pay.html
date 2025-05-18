@@ -1,0 +1,1230 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reska Pay - Pembayaran Digital All-in-One</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <style>
+    :root {
+      --primary: #3B82F6;
+      --primary-dark: #2563EB;
+      --secondary: #F59E0B;
+      --accent: #10B981;
+      --dark: #1F2937;
+      --light: #F9FAFB;
+      --success: #10B981;
+      --danger: #EF4444;
+      --gray: #6B7280;
+    }
+
+    .dark-mode {
+      --dark: #F9FAFB;
+      --light: #1F2937;
+      --primary: #60A5FA;
+      background: #111827;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      transition: background-color 0.3s;
+    }
+
+    body {
+      background-color: var(--light);
+      color: var(--dark);
+      max-width: 480px;
+      margin: 0 auto;
+      position: relative;
+      min-height: 100vh;
+    }
+
+    /* Navigation */
+    nav {
+      background: var(--primary);
+      color: white;
+      padding: 15px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .logo {
+      font-weight: 700;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+    }
+    
+    .logo i {
+      margin-right: 8px;
+      color: var(--secondary);
+    }
+    
+    .nav-links {
+      display: flex;
+      list-style: none;
+    }
+    
+    .nav-links li {
+      margin-left: 15px;
+    }
+    
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+    }
+    
+    .nav-links a i {
+      margin-right: 5px;
+    }
+    
+    .nav-links a:hover {
+      color: var(--secondary);
+    }
+    
+    .menu-toggle {
+      display: none;
+      cursor: pointer;
+      color: white;
+    }
+
+    .theme-toggle {
+      display: flex;
+      align-items: center;
+      margin-left: 15px;
+      color: white;
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 24px;
+      margin: 0 10px;
+    }
+    
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: #ccc;
+      transition: .4s;
+      border-radius: 24px;
+    }
+    
+    input:checked + .slider {
+      background: var(--primary-dark);
+    }
+    
+    .slider:before {
+      content: "";
+      position: absolute;
+      height: 16px;
+      width: 16px;
+      left: 4px;
+      bottom: 4px;
+      background: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+    
+    input:checked + .slider:before {
+      transform: translateX(26px);
+    }
+
+    /* Header */
+    header {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      text-align: center;
+      padding: 30px 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path fill="rgba(255,255,255,0.05)" d="M0,0 L100,0 L100,100 L0,100 Z"></path></svg>');
+      background-size: cover;
+      opacity: 0.2;
+    }
+
+    .hero-text {
+      position: relative;
+      z-index: 2;
+    }
+
+    header h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .highlight {
+      color: var(--secondary);
+      position: relative;
+    }
+
+    .highlight::after {
+      content: "";
+      position: absolute;
+      bottom: 2px;
+      left: 0;
+      width: 100%;
+      height: 8px;
+      background: rgba(245, 158, 11, 0.3);
+      z-index: -1;
+    }
+
+    header p {
+      font-size: 1rem;
+      opacity: 0.9;
+      margin-bottom: 20px;
+    }
+
+    .cta-group {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .cta-primary, .cta-secondary {
+      display: inline-block;
+      padding: 12px 25px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    .cta-primary {
+      background: linear-gradient(to right, var(--primary), var(--primary-dark));
+      color: white;
+      box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+    }
+
+    .cta-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(37, 99, 235, 0.4);
+    }
+
+    .cta-secondary {
+      background: white;
+      color: var(--primary);
+      border: 1px solid var(--primary);
+    }
+
+    .cta-secondary:hover {
+      background: var(--primary);
+      color: white;
+    }
+
+    header img {
+      width: 100%;
+      max-width: 300px;
+      height: auto;
+      border-radius: 10px;
+      margin-top: 20px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      border: 3px solid white;
+    }
+
+    /* Promo Banner */
+    .promo-banner {
+      background: var(--secondary);
+      color: white;
+      padding: 10px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      overflow: hidden;
+    }
+
+    marquee {
+      display: flex;
+      align-items: center;
+    }
+
+    marquee i {
+      margin-right: 8px;
+    }
+
+    /* Main Content */
+    main {
+      padding: 20px;
+      padding-bottom: 80px;
+    }
+
+    section {
+      background: var(--light);
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    section h2 {
+      font-size: 1.4rem;
+      margin-bottom: 15px;
+      color: var(--primary);
+      position: relative;
+      padding-bottom: 8px;
+      display: flex;
+      align-items: center;
+    }
+    
+    section h2::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 40px;
+      height: 3px;
+      background: var(--secondary);
+      border-radius: 3px;
+    }
+
+    section h2 i {
+      margin-right: 10px;
+    }
+
+    /* Bill Checker */
+    .bill-checker {
+      margin-top: 30px;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 12px 15px;
+      margin-bottom: 15px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 0.95rem;
+    }
+
+    .bill-result {
+      margin-top: 15px;
+      padding: 15px;
+      border-radius: 8px;
+      background: #f8fafc;
+      display: none;
+    }
+
+    .loading {
+      text-align: center;
+      color: var(--gray);
+    }
+
+    .success {
+      color: var(--dark);
+    }
+
+    .success h4 {
+      margin-bottom: 10px;
+      color: var(--primary);
+    }
+
+    .success p {
+      margin-bottom: 5px;
+    }
+
+    .price {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .cta-primary.small {
+      padding: 8px 15px;
+      font-size: 0.9rem;
+      display: inline-block;
+      margin-top: 10px;
+    }
+
+    /* Services */
+    .service-tabs {
+      display: flex;
+      margin-bottom: 15px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .tab-btn {
+      padding: 8px 15px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 0.9rem;
+      color: var(--gray);
+      position: relative;
+    }
+
+    .tab-btn.active {
+      color: var(--primary);
+      font-weight: 500;
+    }
+
+    .tab-btn.active::after {
+      content: "";
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--primary);
+    }
+
+    .service-content {
+      display: none;
+    }
+
+    .service-content.active {
+      display: block;
+    }
+
+    .grid-services {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    .service-item {
+      background: var(--light);
+      border-radius: 10px;
+      padding: 15px;
+      text-align: center;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+      border: 1px solid #e2e8f0;
+      transition: all 0.3s ease;
+    }
+    
+    .service-item:hover {
+      transform: scale(1.03);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+      border-color: var(--primary);
+    }
+
+    .service-item i {
+      font-size: 28px;
+      color: var(--primary);
+      margin-bottom: 10px;
+      background: #e0e7ff;
+      width: 50px;
+      height: 50px;
+      line-height: 50px;
+      border-radius: 50%;
+    }
+
+    .service-item h3 {
+      font-size: 1rem;
+      margin-bottom: 5px;
+      color: var(--dark);
+    }
+
+    .service-item .price {
+      font-size: 0.9rem;
+      color: var(--primary-dark);
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+    
+    .service-item .discount {
+      font-size: 0.7rem;
+      color: var(--success);
+      background: #d1fae5;
+      padding: 2px 5px;
+      border-radius: 3px;
+      display: inline-block;
+      margin-bottom: 5px;
+    }
+
+    .service-item a {
+      display: inline-block;
+      background: linear-gradient(to right, var(--primary), var(--primary-dark));
+      color: white;
+      padding: 8px 15px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    
+    .service-item a:hover {
+      background: linear-gradient(to right, var(--primary-dark), var(--primary));
+    }
+
+    /* Features */
+    ul.features {
+      list-style: none;
+      margin-top: 15px;
+    }
+    
+    ul.features li {
+      padding: 8px 0;
+      border-bottom: 1px solid #f1f5f9;
+      display: flex;
+      align-items: center;
+    }
+    
+    ul.features li:last-child {
+      border-bottom: none;
+    }
+    
+    ul.features li i {
+      color: var(--success);
+      margin-right: 10px;
+      font-size: 1.1rem;
+    }
+
+    /* Testimonials */
+    .testimonial-item {
+      background: #f8fafc;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      border-left: 3px solid var(--primary);
+    }
+    
+    .testimonial-item .stars {
+      color: var(--secondary);
+      margin-bottom: 5px;
+    }
+    
+    .testimonial-item p {
+      font-size: 0.9rem;
+      color: var(--dark);
+      margin-bottom: 5px;
+    }
+    
+    .testimonial-item .author {
+      font-weight: 600;
+      font-size: 0.8rem;
+      color: var(--gray);
+    }
+
+    /* Trust Badges */
+    .trust-badges {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      margin: 20px 0;
+    }
+
+    .badge {
+      display: flex;
+      align-items: center;
+      background: #f8fafc;
+      padding: 10px 15px;
+      border-radius: 8px;
+      margin: 5px;
+      font-size: 0.8rem;
+    }
+
+    .badge i {
+      margin-right: 8px;
+      color: var(--primary);
+    }
+
+    /* Live Counter */
+    .live-counter {
+      background: var(--primary);
+      color: white;
+      padding: 8px 15px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      display: inline-flex;
+      align-items: center;
+      margin: 10px 0;
+    }
+
+    .live-counter i {
+      margin-right: 8px;
+    }
+
+    /* Payment Methods */
+    .payment-methods {
+      margin: 20px 0;
+      text-align: center;
+    }
+
+    .payment-methods p {
+      margin-bottom: 10px;
+      font-size: 0.9rem;
+      color: var(--gray);
+    }
+
+    .method-icons {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .method-icons img {
+      height: 25px;
+      filter: grayscale(30%);
+      opacity: 0.8;
+      transition: all 0.3s ease;
+    }
+
+    .method-icons img:hover {
+      filter: grayscale(0);
+      opacity: 1;
+    }
+
+    /* Mini Cart */
+    .mini-cart {
+      position: fixed;
+      bottom: 80px;
+      right: 20px;
+      background: var(--primary);
+      color: white;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.2rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      cursor: pointer;
+      z-index: 90;
+    }
+
+    .cart-count {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background: var(--danger);
+      color: white;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      font-size: 0.7rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .cart-panel {
+      position: fixed;
+      bottom: -100%;
+      left: 0;
+      width: 100%;
+      background: var(--light);
+      padding: 20px;
+      border-radius: 15px 15px 0 0;
+      box-shadow: 0 -5px 15px rgba(0,0,0,0.1);
+      z-index: 95;
+      transition: bottom 0.3s ease;
+    }
+
+    .cart-panel.active {
+      bottom: 0;
+    }
+
+    .cart-panel h3 {
+      margin-bottom: 15px;
+      color: var(--primary);
+    }
+
+    .cart-items {
+      max-height: 200px;
+      overflow-y: auto;
+      margin-bottom: 15px;
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .cart-item p {
+      font-size: 0.9rem;
+    }
+
+    .remove-item {
+      color: var(--danger);
+      cursor: pointer;
+    }
+
+    .checkout-btn {
+      display: block;
+      background: var(--primary);
+      color: white;
+      text-align: center;
+      padding: 12px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    /* WhatsApp Float */
+    .whatsapp-float {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #25D366;
+      color: white;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 60px;
+      font-size: 1.5rem;
+      box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
+      z-index: 100;
+      transition: all 0.3s ease;
+    }
+    
+    .whatsapp-float:hover {
+      transform: scale(1.1);
+      box-shadow: 0 7px 20px rgba(37, 211, 102, 0.4);
+    }
+
+    /* Footer */
+    footer {
+      background: var(--dark);
+      padding: 25px 15px;
+      text-align: center;
+      font-size: 0.85rem;
+      color: white;
+    }
+    
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+    }
+    
+    .footer-links a {
+      color: #e2e8f0;
+      text-decoration: none;
+      margin: 0 10px;
+      transition: all 0.3s ease;
+    }
+    
+    .footer-links a:hover {
+      color: var(--secondary);
+    }
+    
+    .social-links {
+      margin: 15px 0;
+    }
+    
+    .social-links a {
+      display: inline-block;
+      width: 35px;
+      height: 35px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 50%;
+      color: white;
+      line-height: 35px;
+      margin: 0 5px;
+      transition: all 0.3s ease;
+    }
+    
+    .social-links a:hover {
+      background: var(--primary);
+      transform: translateY(-3px);
+    }
+    
+    .copyright {
+      color: #94a3b8;
+      font-size: 0.8rem;
+    }
+    
+    .copyright a {
+      color: var(--secondary);
+      text-decoration: none;
+    }
+
+    /* Animations */
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .fa-spinner {
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-in {
+      animation: fadeIn 0.5s ease forwards;
+    }
+
+    /* Overlay */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 80;
+      display: none;
+    }
+
+    /* Responsive */
+    @media screen and (max-width: 480px) {
+      .menu-toggle {
+        display: block;
+      }
+      
+      .nav-links {
+        position: fixed;
+        top: 60px;
+        left: -100%;
+        width: 100%;
+        height: calc(100vh - 60px);
+        background: var(--primary);
+        flex-direction: column;
+        align-items: center;
+        padding-top: 20px;
+        transition: all 0.3s ease;
+      }
+      
+      .nav-links.active {
+        left: 0;
+      }
+      
+      .nav-links li {
+        margin: 15px 0;
+      }
+      
+      .grid-services {
+        grid-template-columns: 1fr;
+      }
+      
+      .cta-group {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .cta-primary, .cta-secondary {
+        width: 100%;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav>
+    <div class="logo">
+      <i class="fas fa-wallet"></i>
+      <span>Reska Pay</span>
+    </div>
+    <div class="menu-toggle">
+      <i class="fas fa-bars"></i>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#"><i class="fas fa-home"></i> Beranda</a></li>
+      <li><a href="#services"><i class="fas fa-concierge-bell"></i> Layanan</a></li>
+      <li><a href="#about"><i class="fas fa-info-circle"></i> Tentang</a></li>
+      <li><a href="#contact"><i class="fas fa-phone-alt"></i> Kontak</a></li>
+    </ul>
+    <div class="theme-toggle">
+      <i class="fas fa-moon"></i>
+      <label class="switch">
+        <input type="checkbox" id="themeToggle">
+        <span class="slider"></span>
+      </label>
+    </div>
+  </nav>
+
+  <!-- Header -->
+  <header>
+    <div class="hero-text">
+      <h1>Bayar Tagihan & Beli Pulsa <span class="highlight">Tanpa Ribet</span></h1>
+      <p>Transaksi cepat, aman, dan dapatkan <strong>cashback setiap bulan</strong></p>
+      <div class="cta-group">
+        <a href="https://wa.me/628xxxxxxx" class="cta-primary">
+          <i class="fab fa-whatsapp"></i> Pesan Sekarang
+        </a>
+        <a href="#services" class="cta-secondary">
+          <i class="fas fa-list"></i> Lihat Layanan
+        </a>
+      </div>
+    </div>
+    <img src="image/banner-img.jpg" alt="Ilustrasi Pembayaran Digital">
+  </header>
+
+  <!-- Promo Banner -->
+  <div class="promo-banner">
+    <marquee behavior="scroll" direction="left">
+      <i class="fas fa-fire"></i> PROMO SPESIAL: Cashback 5% setiap Jumat! • Gratis biaya admin pembelian pertama • Voucher 10K untuk transaksi >Rp100.000
+    </marquee>
+  </div>
+
+  <!-- Main Content -->
+  <main>
+    <!-- Bill Checker -->
+    <section class="bill-checker">
+      <h2><i class="fas fa-search-dollar"></i> Cek Tagihan</h2>
+      <form id="billForm">
+        <select class="form-input" required>
+          <option value="">Pilih Layanan...</option>
+          <option>PLN Prabayar</option>
+          <option>PDAM</option>
+          <option>Telkom</option>
+          <option>BPJS Kesehatan</option>
+        </select>
+        <input type="text" class="form-input" placeholder="Nomor Pelanggan/ID" required>
+        <button type="submit" class="cta-primary">
+          <i class="fas fa-calculator"></i> Cek Sekarang
+        </button>
+      </form>
+      <div id="billResult" class="bill-result">
+        <!-- Hasil akan muncul di sini -->
+      </div>
+    </section>
+
+    <!-- Trust Badges -->
+    <div class="trust-badges">
+      <div class="badge">
+        <i class="fas fa-shield-alt"></i>
+        <span>100% Transaksi Aman</span>
+      </div>
+      <div class="badge">
+        <i class="fas fa-bolt"></i>
+        <span>Instan dalam 3 Menit</span>
+      </div>
+      <div class="badge">
+        <i class="fas fa-headset"></i>
+        <span>CS Ramah 12 Jam</span>
+      </div>
+    </div>
+
+    <!-- Live Counter -->
+    <div class="live-counter">
+      <i class="fas fa-users"></i>
+      <span><span id="transaction-count">1,243</span> transaksi hari ini</span>
+    </div>
+
+    <!-- Services -->
+    <section id="services">
+      <h2><i class="fas fa-concierge-bell"></i> Layanan Kami</h2>
+      <div class="service-tabs">
+        <button class="tab-btn active" data-category="pulsa">Pulsa & Data</button>
+        <button class="tab-btn" data-category="pln">PLN & PDAM</button>
+        <button class="tab-btn" data-category="entertainment">Entertainment</button>
+      </div>
+      
+      <div class="service-content active" id="pulsa">
+        <div class="grid-services">
+          <div class="service-item fade-in">
+            <i class="fas fa-mobile-alt"></i>
+            <h3>Pulsa Telkomsel 25K</h3>
+            <div class="price">Rp27.000</div>
+            <div class="discount">Hemat Rp1.000</div>
+            <a href="#" class="add-to-cart" data-service="Pulsa Telkomsel 25K" data-price="27000">Beli Sekarang</a>
+          </div>
+          <div class="service-item fade-in">
+            <i class="fas fa-sim-card"></i>
+            <h3>Paket Data 10GB</h3>
+            <div class="price">Rp45.000</div>
+            <div class="discount">30 Hari</div>
+            <a href="#" class="add-to-cart" data-service="Paket Data 10GB" data-price="45000">Beli Sekarang</a>
+          </div>
+          <div class="service-item fade-in">
+            <i class="fas fa-mobile"></i>
+            <h3>Pulsa XL 50K</h3>
+            <div class="price">Rp52.000</div>
+            <div class="discount">Hemat Rp2.000</div>
+            <a href="#" class="add-to-cart" data-service="Pulsa XL 50K" data-price="52000">Beli Sekarang</a>
+          </div>
+          <div class="service-item fade-in">
+            <i class="fas fa-globe"></i>
+            <h3>Paket Roaming</h3>
+            <div class="price">Rp120.000</div>
+            <div class="discount">7 Hari</div>
+            <a href="#" class="add-to-cart" data-service="Paket Roaming" data-price="120000">Beli Sekarang</a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="service-content" id="pln">
+        <div class="grid-services">
+          <div class="service-item">
+            <i class="fas fa-bolt"></i>
+            <h3>Token PLN 50K</h3>
+            <div class="price">Rp52.000</div>
+            <div class="discount">Hemat Rp2.000</div>
+            <a href="#" class="add-to-cart" data-service="Token PLN 50K" data-price="52000">Beli Sekarang</a>
+          </div>
+          <div class="service-item">
+            <i class="fas fa-bolt"></i>
+            <h3>Token PLN 100K</h3>
+            <div class="price">Rp102.000</div>
+            <div class="discount">Hemat Rp3.000</div>
+            <a href="#" class="add-to-cart" data-service="Token PLN 100K" data-price="102000">Beli Sekarang</a>
+          </div>
+          <div class="service-item">
+            <i class="fas fa-tint"></i>
+            <h3>Bayar PDAM</h3>
+            <div class="price">Mulai Rp50.000</div>
+            <div class="discount">Cashback 2%</div>
+            <a href="#" class="add-to-cart" data-service="Bayar PDAM" data-price="50000">Bayar Sekarang</a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="service-content" id="entertainment">
+        <div class="grid-services">
+          <div class="service-item">
+            <i class="fas fa-tv"></i>
+            <h3>Voucher TV Kabel</h3>
+            <div class="price">Rp30.000</div>
+            <div class="discount">Promo Mingguan</div>
+            <a href="#" class="add-to-cart" data-service="Voucher TV Kabel" data-price="30000">Beli Sekarang</a>
+          </div>
+          <div class="service-item">
+            <i class="fas fa-gamepad"></i>
+            <h3>Voucher Game 50K</h3>
+            <div class="price">Rp51.000</div>
+            <div class="discount">Free Skin</div>
+            <a href="#" class="add-to-cart" data-service="Voucher Game 50K" data-price="51000">Beli Sekarang</a>
+          </div>
+          <div class="service-item">
+            <i class="fas fa-film"></i>
+            <h3>Subscription Streaming</h3>
+            <div class="price">Rp45.000</div>
+            <div class="discount">1 Bulan</div>
+            <a href="#" class="add-to-cart" data-service="Subscription Streaming" data-price="45000">Beli Sekarang</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Recommendation -->
+    <section class="recommendation">
+      <h2><i class="fas fa-lightbulb"></i> Rekomendasi Untuk Anda</h2>
+      <div id="recommendationList" class="grid-services">
+        <!-- Item rekomendasi akan muncul di sini -->
+      </div>
+    </section>
+
+    <!-- About -->
+    <section id="about">
+      <h2><i class="fas fa-info-circle"></i> Mengapa Pilih Reska Pay?</h2>
+      <ul class="features">
+        <li>
+          <i class="fas fa-check-circle"></i>
+          <span>Transaksi Cepat & Aman dengan sistem otomatis 24/7</span>
+        </li>
+        <li>
+          <i class="fas fa-check-circle"></i>
+          <span>Layanan Lengkap untuk semua kebutuhan digital Anda</span>
+        </li>
+        <li>
+          <i class="fas fa-check-circle"></i>
+          <span>Dukungan Pelanggan Ramah siap membantu 12 jam/hari</span>
+        </li>
+        <li>
+          <i class="fas fa-check-circle"></i>
+          <span>Promo dan Diskon Spesial untuk member setia</span>
+        </li>
+      </ul>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials">
+      <h2><i class="fas fa-comment-alt"></i> Apa Kata Pelanggan?</h2>
+      <div class="testimonial-item">
+        <div class="stars">
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+        </div>
+        <p>"Pelayanan sangat cepat, token PLN langsung masuk padahal malam hari. Terima kasih Reska Pay!"</p>
+        <div class="author">- Budi, Jakarta</div>
+      </div>
+      <div class="testimonial-item">
+        <div class="stars">
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star-half-alt"></i>
+        </div>
+        <p>"Harga kompetitif dan CS ramah. Sudah langganan lebih dari setahun untuk pembelian pulsa."</p>
+        <div class="author">- Siti, Bandung</div>
+      </div>
+    </section>
+
+    <!-- Payment Methods -->
+    <section>
+      <h2><i class="fas fa-credit-card"></i> Metode Pembayaran</h2>
+      <div class="payment-methods">
+        <p>Kami menerima berbagai metode pembayaran:</p>
+        <div class="method-icons">
+          <img src="https://via.placeholder.com/60x40?text=BCA" alt="BCA">
+          <img src="https://via.placeholder.com/60x40?text=Mandiri" alt="Mandiri">
+          <img src="https://via.placeholder.com/60x40?text=BRI" alt="BRI">
+          <img src="https://via.placeholder.com/60x40?text=DANA" alt="DANA">
+          <img src="https://via.placeholder.com/60x40?text=OVO" alt="OVO">
+          <img src="https://via.placeholder.com/60x40?text=Gopay" alt="Gopay">
+        </div>
+      </div>
+    </section>
+
+
+    <section id="contact">
+      <h2>Hubungi Kami</h2>
+      <ul class="features">
+        <li>
+          <i class="fas fa-phone-alt"></i>
+          <span>WhatsApp: <a href="https://wa.me/628xxxxxxx">+62 8xx-xxxx-xxxx</a></span>
+        </li>
+        <li>
+          <i class="fas fa-envelope"></i>
+          <span>Email: <a href="mailto:reskajaya34@gmail.com">reskajaya34@gmail.com</a></span>
+        </li>
+        <li>
+          <i class="fas fa-clock"></i>
+          <span>Jam Operasional: Senin-Minggu, 08:00 - 20:00 WIB</span>
+        </li>
+      </ul>
+    </section>
+
+    <div class="footer">
+      <div class="footer-links">
+        <a href="#">Beranda</a>
+        <a href="#services">Layanan</a>
+        <a href="#about">Tentang Kami</a>
+        <a href="#contact">Kontak</a>
+        <a href="#">Syarat & Ketentuan</a>
+      </div>
+      <div class="social-links">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-whatsapp"></i></a>
+      </div>
+      <p class="copyright">© 2025 <a href="#">Reska Pay</a>. Semua Hak Dilindungi.</p>
+    </div>
+    
+    <a href="https://wa.me/628xxxxxxx" class="whatsapp-float">
+      <i class="fab fa-whatsapp"></i>
+    </a>
+  </div>
+<div class="live-counter">
+  <i class="fas fa-users"></i>
+  <span><span id="transaction-count">1,243</span> transaksi hari ini</span>
+</div>
+<script>
+  
+  document.getElementById('billForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const service = document.getElementById('serviceType').value;
+    const customerId = document.getElementById('customerId').value;
+    const resultDiv = document.getElementById('billResult');
+
+    // Validasi dasar
+    if (!service || !customerId) {
+      resultDiv.innerHTML = "<p style='color:red;'>Mohon lengkapi semua data.</p>";
+      return;
+    }
+
+    // Menampilkan loading
+    resultDiv.innerHTML = "<p>Memeriksa tagihan...</p>";
+
+    // Contoh endpoint API simulasi
+    const apiUrl = `https://api.example.com/check-bill?service=${service}&id=${customerId}`;
+
+    // Panggil API
+    fetch(apiUrl)
+      .then(response => {
+        if (!response.ok) throw new Error("Gagal mengambil data");
+        return response.json();
+      })
+      .then(data => {
+        // Tampilkan hasil (simulasi)
+        resultDiv.innerHTML = `
+          <h4>Detail Tagihan</h4>
+          <p>Layanan: ${data.service_name}</p>
+          <p>Nama: ${data.customer_name}</p>
+          <p>Jumlah Tagihan: Rp ${data.amount}</p>
+          <p>Jatuh Tempo: ${data.due_date}</p>
+        `;
+      })
+      .catch(error => {
+        resultDiv.innerHTML = `<p style="color:red;">Terjadi kesalahan: ${error.message}</p>`;
+      });
+  });
+  // Auto increment counter
+  setInterval(() => {
+    const countElement = document.getElementById('transaction-count');
+    let count = parseInt(countElement.textContent.replace(/,/g, ''));
+    count += Math.floor(Math.random() * 3);
+    countElement.textContent = count.toLocaleString();
+  }, 3000);
+</script>
+
+  <script>
+    // Mobile menu toggle
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navLinks = document.querySelector('.nav-links');
+    
+    menuToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+    });
+    
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        
+        navLinks.classList.remove('active');
+        
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>
